@@ -9,11 +9,12 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Move to frontend directory
-        run: cd frontend
       - name: Use Node
         uses: actions/setup-node@v3.6.0
       - name: Install dependencies
