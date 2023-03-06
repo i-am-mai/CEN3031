@@ -31,8 +31,10 @@ func main() {
 
 	db.AutoMigrate(&User{})
 
-	host := "127.0.0.1:8080"
-	fmt.Println("Serving on http://localhost:8080")
+	port := os.Getenv("PORT")
+
+	host := "0.0.0.0:" + port
+	fmt.Println("Serving on " + host)
 	if err := http.ListenAndServe(host, httpHandler(store, db)); err != nil {
 		log.Fatalf("Failed to listen on %s: %v", host, err)
 	}
