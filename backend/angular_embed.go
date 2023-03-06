@@ -36,4 +36,4 @@ func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	http.FileServer(http.Dir(h.staticPath)).ServeHTTP(w, r)
 }
 
-var AngularHandler = spaHandler{staticPath: "../frontend/dist", indexPath: "index.html"}
+var AngularHandler = spaHandler{staticPath: "./dist", indexPath: "index.html"}
