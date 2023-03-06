@@ -22,12 +22,7 @@ jobs:
       - name: Build
         run: npm run build:ci
       - name: Archive build
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
-          name: deploy_dist
-          path: dist
-      - name: Archive code coverage result
-        uses: actions/upload-artifact@v1
-        with:
-          name: deploy_coverage
-          path: coverage
+          name: dist
+          path: ../backend/dist
