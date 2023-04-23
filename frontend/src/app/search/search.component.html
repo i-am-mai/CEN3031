@@ -1,9 +1,40 @@
 <!-- only active when student logged in -->
 <!-- search bar -->
-<div class="form-group">
-    <label for="search"></label>
-    <input type="text" formControlName="search" class="form-control" />
-    &nbsp;&nbsp;&nbsp;
-    <button onclick="search()">Search</button>
 
-<!-- available tutors -->
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Search Tutors by Subject</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="search-container">
+      <mat-form-field appearance="fill" class="example-full-width">
+        <input matInput placeholder="Enter subject here" id="subject" [(ngModel)]="subject">
+      </mat-form-field>
+      <button mat-raised-button (click)="searchTutors()" color="primary">Find Tutors</button>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<div class="card-container">
+  <mat-card *ngFor="let tutor of tutors">
+    <mat-card-header>
+      <a routerLink="/users/{{ tutor.id }}">
+        <h1 class="name">{{ tutor.first_name }} {{ tutor.last_name }}</h1>
+      </a>
+      <button mat-stroked-button class="rating" id="price">
+        <span id="rating-number"><b>${{tutor.price}}</b></span>/hr
+      </button>
+      <button mat-button [style.background-color]="setRatingBackground(tutor.rating)" class="rating">
+        <span id="rating-number"><b>{{tutor.rating}}</b></span>/10
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <h2>{{ tutor.title }}</h2>
+      <h2>Subjects</h2>
+      <mat-chip-set>
+        <mat-chip *ngFor="let subject of tutor.subjects">{{subject.name}}</mat-chip>
+      </mat-chip-set>
+    </mat-card-content>
+  </mat-card>
+</div>
+

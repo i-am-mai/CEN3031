@@ -1,0 +1,72 @@
+<div class="main" *ngIf="!loading">
+  <mat-card class="profile">
+    <div class="sidebar">
+      <img *ngIf="user.profile_picture != ''" [src]="profilePictureURL" id="profile-picture">
+      <img *ngIf="user.profile_picture == ''" src="/assets/img/avatar.webp" id="profile-picture">
+      <h2 id="title1">{{user.title}}</h2>
+      <button *ngIf="!isConnection && user.is_tutor" mat-raised-button color="primary" (click)="addTutor()" id="addTutor">Add Tutor</button>
+    </div>
+    <div class="content">
+      <div class="header">
+        <h1 class="name" id="full-name">{{user.first_name}} {{user.last_name}}</h1>
+        <button mat-button [style.background-color]="setRatingBackground(user.rating)" class="rating">
+          <span id="rating-number"><b>{{user.rating}}</b></span>/10
+        </button>
+      </div>
+      <div *ngIf="user.is_tutor" class="about">
+        <h1>About me</h1>
+        <p>{{user.about}}</p>
+      </div>
+      <div *ngIf="user.is_tutor" class="price">
+        <h1>Hourly rate</h1>
+        <h2 id="price">${{user.price}}/hr</h2>
+      </div>
+      <div class="contact">
+        <h1>Contact Me</h1>
+        <p>Phone Number: {{user.phone}}</p>
+        <p>Email: {{user.email}}</p>
+        <p>Other: {{user.contact}}</p>
+      </div>
+      <div *ngIf="user.is_tutor">
+        <h1 class="courses">My Subjects</h1>
+        <mat-chip-set>
+          <mat-chip *ngFor="let subject of user.subjects">{{subject.name}}</mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card class="reviews">
+    <h1 class="name">Reviews</h1>
+
+    <!-- Submit a review -->
+    <mat-card class="review" *ngIf="isConnection">
+      <div class="submit-review-header">
+        <h1 style="font-size:1.6rem;">Submit a review</h1>
+      </div>        
+      <mat-form-field id="rating-input">
+        <mat-label>Rating</mat-label>
+        <input matInput type="number" id="quantity" name="quantity" placeholder="1-10" step="1" min="1" max="10" [(ngModel)]="review.rating" required> 
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Review</mat-label>
+        <textarea matInput placeholder="Write your review here!" [(ngModel)]="review.review_text" required></textarea>
+      </mat-form-field>
+      <button mat-raised-button color="primary" id="submit-review" (click)="submitReview()">Submit</button>
+    </mat-card>
+
+    <!-- Display reviews -->
+    <mat-card *ngFor="let review of user.reviews" class="review">
+      <div class="review-header">
+        <h1 style="font-size: 2.5rem; line-height: 1em;">
+          {{review.review_text.split(' ').length > 5 ? review.review_text.split(' ').slice(0, 5).join(' ') : review.review_text}}...
+        </h1>
+        <button mat-button [style.background-color]="setRatingBackground(review.rating)" class="rating">
+          <span id="rating-number"><b>{{review.rating}}</b></span>/10
+        </button>
+      </div>
+      <p class="review-text">
+        {{review.review_text}}
+      </p>  
+    </mat-card>
+  </mat-card>
+</div>
