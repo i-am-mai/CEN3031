@@ -156,7 +156,12 @@ export class AuthService {
     let id: number = this.userSubject.value.id;
     return this.http.get(`/api/users/${id}`, options)
       .pipe(
-        tap((response) => {
+        tap((response: any) => {
+          let user: any = response;
+          user.id = response.ID;
+          for (let i = 0; i < response.connections.length; i++) {
+            user.connections[i].id = response.connections[i].ID
+          }
           sessionStorage.setItem('userData', JSON.stringify(response));
         })
       );
